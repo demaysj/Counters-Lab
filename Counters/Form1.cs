@@ -82,7 +82,7 @@ namespace Counters
                         myTask.COChannels.CreatePulseChannelFrequency(cboCountOut.Text, "ContinuousPulseTrain", COPulseFrequencyUnits.Hertz, COPulseIdleState.Low, 0.0, (double)(nudFreq.Value),
                             (double)(nudDuty.Value / 100));
 
-                        myTask.Timing.ConfigureImplicit(SampleQuantityMode.ContinuousSamples, 1000);
+                        myTask.Timing.ConfigureImplicit(SampleQuantityMode.ContinuousSamples, 1000);  //implicit clock is the onboard clock
 
                         myTask.COChannels.All.PulseTerminal = "/Dev" + (cboDev.SelectedIndex + 1) + "/PFI" + nudOutput.Value;
                     }
@@ -155,7 +155,7 @@ namespace Counters
                 {
                     measTask = new NationalInstruments.DAQmx.Task();
                     measTask.CIChannels.CreateFrequencyChannel(cboCountIn.Text, "measChan", 1, 20000000, CIFrequencyStartingEdge.Rising, CIFrequencyMeasurementMethod.LowFrequencyOneCounter,
-                        0.01, 4, CIFrequencyUnits.Hertz);
+                        0.01, 4, CIFrequencyUnits.Hertz);       //this line sets up the counter. Parameters: counter, channel name, min value, max value, edge, (method), time for measurement, units
                     myReader = new CounterSingleChannelReader(measTask.Stream);
 
                     read = true;
@@ -173,5 +173,6 @@ namespace Counters
             catch(Exception ex) { MessageBox.Show(ex.Message); }
 
         }
+
     }
 }
